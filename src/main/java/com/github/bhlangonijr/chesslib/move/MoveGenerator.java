@@ -41,7 +41,6 @@ public class MoveGenerator {
      * Generate All pawn moves
      *
      * @param board
-     * @return
      */
     public void generatePawnCaptures(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -78,7 +77,6 @@ public class MoveGenerator {
      * Generate All pawn captures
      *
      * @param board
-     * @return
      */
     public void generatePawnMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -113,7 +111,6 @@ public class MoveGenerator {
      * Get knight moves
      *
      * @param board
-     * @return
      */
     public void generateKnightMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -134,7 +131,6 @@ public class MoveGenerator {
      * Get Bishop moves
      *
      * @param board
-     * @return
      */
     public void generateBishopMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -156,7 +152,6 @@ public class MoveGenerator {
      * Get Rook moves
      *
      * @param board
-     * @return
      */
     public void generateRookMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -178,7 +173,6 @@ public class MoveGenerator {
      * Get Queen moves
      *
      * @param board
-     * @return
      */
     public void generateQueenMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
@@ -200,7 +194,6 @@ public class MoveGenerator {
      * Get King moves
      *
      * @param board
-     * @return
      */
     public void generateKingMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();

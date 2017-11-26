@@ -787,7 +787,7 @@ public class Board implements Cloneable, BoardEvent {
     }
 
     /**
-     * Square attacked by a given piece type & side
+     * Square attacked by a given piece type &amp; side
      *
      * @param square
      * @param side
