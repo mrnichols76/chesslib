@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,40 @@
 
 package com.github.bhlangonijr.chesslib.game;
 
+/**
+ * The enum Event type.
+ */
 public enum EventType {
+    /**
+     * Normal match event type.
+     */
     NORMAL_MATCH,
+    /**
+     * Round robin event type.
+     */
     ROUND_ROBIN,
+    /**
+     * Round robin carousel event type.
+     */
     ROUND_ROBIN_CAROUSEL,
+    /**
+     * Swiss event type.
+     */
     SWISS,
+    /**
+     * Gauntlet event type.
+     */
     GAUNTLET,
+    /**
+     * Single elimination event type.
+     */
     SINGLE_ELIMINATION,
+    /**
+     * Double elimination event type.
+     */
     DOUBLE_ELIMINATION,
+    /**
+     * Analyses event type.
+     */
     ANALYSES
 }

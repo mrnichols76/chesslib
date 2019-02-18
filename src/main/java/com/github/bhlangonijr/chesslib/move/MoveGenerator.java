@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,29 +20,21 @@ import com.github.bhlangonijr.chesslib.*;
 
 import java.util.List;
 
+/**
+ * The Move generator.
+ */
 public class MoveGenerator {
-    static final MoveGenerator instance = new MoveGenerator();
 
     private MoveGenerator() {
     }
 
     /**
-     * get the instance
-     *
-     * @return
-     */
-    public static MoveGenerator getInstance() {
-        return instance;
-    }
-
-    ;
-
-    /**
      * Generate All pawn moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generatePawnCaptures(Board board, MoveList moves) {
+    public static void generatePawnCaptures(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.PAWN));
         if (pieces != 0L) {
@@ -76,9 +68,10 @@ public class MoveGenerator {
     /**
      * Generate All pawn captures
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generatePawnMoves(Board board, MoveList moves) {
+    public static void generatePawnMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.PAWN));
         if (pieces != 0L) {
@@ -110,9 +103,10 @@ public class MoveGenerator {
     /**
      * Get knight moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateKnightMoves(Board board, MoveList moves) {
+    public static void generateKnightMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.KNIGHT));
         if (pieces != 0L) {
@@ -130,9 +124,10 @@ public class MoveGenerator {
     /**
      * Get Bishop moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateBishopMoves(Board board, MoveList moves) {
+    public static void generateBishopMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.BISHOP));
         if (pieces != 0L) {
@@ -151,9 +146,10 @@ public class MoveGenerator {
     /**
      * Get Rook moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateRookMoves(Board board, MoveList moves) {
+    public static void generateRookMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.ROOK));
         if (pieces != 0L) {
@@ -172,9 +168,10 @@ public class MoveGenerator {
     /**
      * Get Queen moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateQueenMoves(Board board, MoveList moves) {
+    public static void generateQueenMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.QUEEN));
         if (pieces != 0L) {
@@ -193,9 +190,10 @@ public class MoveGenerator {
     /**
      * Get King moves
      *
-     * @param board
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateKingMoves(Board board, MoveList moves) {
+    public static void generateKingMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         long pieces = board.getBitboard(Piece.make(side, PieceType.KING));
         if (pieces != 0L) {
@@ -214,17 +212,17 @@ public class MoveGenerator {
     /**
      * Generate all castle moves - always legal moves
      *
-     * @param board
-     * @param moves
+     * @param board the board
+     * @param moves the moves
      */
-    public void generateCastleMoves(Board board, MoveList moves) {
+    public static void generateCastleMoves(Board board, MoveList moves) {
         Side side = board.getSideToMove();
         if (board.isKingAttacked()) {
             return;
         }
         if (board.getCastleRight(side).equals(CastleRight.KING_AND_QUEEN_SIDE) ||
                 (board.getCastleRight(side).equals(CastleRight.KING_SIDE))) {
-            if ((board.getBitboard() & board.getContext().getooSquaresBb(side)) == 0L) {
+            if ((board.getBitboard() & board.getContext().getooAllSquaresBb(side)) == 0L) {
                 if (!board.isSquareAttackedBy(board.getContext().getooSquares(side), side.flip())) {
                     moves.add(board.getContext().getoo(side));
                 }
@@ -232,7 +230,7 @@ public class MoveGenerator {
         }
         if (board.getCastleRight(side).equals(CastleRight.KING_AND_QUEEN_SIDE) ||
                 (board.getCastleRight(side).equals(CastleRight.QUEEN_SIDE))) {
-            if ((board.getBitboard() & board.getContext().getoooSquaresBb(side)) == 0L) {
+            if ((board.getBitboard() & board.getContext().getoooAllSquaresBb(side)) == 0L) {
                 if (!board.isSquareAttackedBy(board.getContext().getoooSquares(side), side.flip())) {
                     moves.add(board.getContext().getooo(side));
                 }
@@ -243,10 +241,10 @@ public class MoveGenerator {
     /**
      * Generate all pseudo-legal moves
      *
-     * @param board
-     * @return
+     * @param board the board
+     * @return move list
      */
-    public MoveList generatePseudoLegalMoves(Board board) {
+    public static MoveList generatePseudoLegalMoves(Board board) {
         MoveList moves = new MoveList();
         generatePawnCaptures(board, moves);
         generatePawnMoves(board, moves);
@@ -262,10 +260,11 @@ public class MoveGenerator {
     /**
      * Generate Legal Moves
      *
-     * @param board
-     * @return
+     * @param board the board
+     * @return move list
+     * @throws MoveGeneratorException the move generator exception
      */
-    public MoveList generateLegalMoves(Board board) throws MoveGeneratorException {
+    public static MoveList generateLegalMoves(Board board) throws MoveGeneratorException {
         MoveList legalMoves = new MoveList();
         try {
             MoveList moves = generatePseudoLegalMoves(board);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,33 @@
 
 package com.github.bhlangonijr.chesslib.game;
 
+/**
+ * The enum Time control type.
+ */
 public enum TimeControlType {
+    /**
+     * Unknow time control type.
+     */
     UNKNOW,
+    /**
+     * Time bonus time control type.
+     */
     TIME_BONUS,
+    /**
+     * Fixed depth time control type.
+     */
     FIXED_DEPTH,
+    /**
+     * Time per move time control type.
+     */
     TIME_PER_MOVE,
+    /**
+     * Moves per time time control type.
+     */
     MOVES_PER_TIME,
+    /**
+     * Nodes time control type.
+     */
     NODES
 
 }

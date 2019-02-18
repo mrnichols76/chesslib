@@ -14,34 +14,18 @@
  * limitations under the License.
  */
 
-package com.github.bhlangonijr.chesslib.game;
+package com.github.bhlangonijr.chesslib.pgn;
 
 /**
- * The enum Variation type.
+ * The interface Pgn load listener.
  */
-public enum VariationType {
+public interface PgnLoadListener {
+
     /**
-     * Normal variation type.
+     * Notify progress.
+     *
+     * @param games the games
      */
-    NORMAL,
-    /**
-     * Chess 960 variation type.
-     */
-    CHESS960,
-    /**
-     * Nocastle variation type.
-     */
-    NOCASTLE,
-    /**
-     * Wildcastle variation type.
-     */
-    WILDCASTLE,
-    /**
-     * Bughouse variation type.
-     */
-    BUGHOUSE,
-    /**
-     * Crazyhouse variation type.
-     */
-    CRAZYHOUSE
+    void notifyProgress(int games);
+
 }

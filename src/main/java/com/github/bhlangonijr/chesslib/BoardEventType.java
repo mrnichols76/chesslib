@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,34 @@ package com.github.bhlangonijr.chesslib;
  * Board Event Types
  */
 public enum BoardEventType {
+    /**
+     * On move board event type.
+     */
     ON_MOVE,
+    /**
+     * On undo move board event type.
+     */
     ON_UNDO_MOVE,
+    /**
+     * On load board event type.
+     */
     ON_LOAD;
 
+    /**
+     * From value board event type.
+     *
+     * @param v the v
+     * @return the board event type
+     */
     public static BoardEventType fromValue(String v) {
         return valueOf(v);
     }
 
+    /**
+     * Value string.
+     *
+     * @return the string
+     */
     public String value() {
         return name();
     }

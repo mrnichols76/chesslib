@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 package com.github.bhlangonijr.chesslib.game;
 
+/**
+ * The type Generic player.
+ */
 public class GenericPlayer implements Player {
 
     private String id;
@@ -24,10 +27,19 @@ public class GenericPlayer implements Player {
     private PlayerType type;
     private String description;
 
+    /**
+     * Instantiates a new Generic player.
+     */
     public GenericPlayer() {
 
     }
 
+    /**
+     * Instantiates a new Generic player.
+     *
+     * @param id   the id
+     * @param name the name
+     */
     public GenericPlayer(String id, String name) {
         this.id = id;
         this.name = name;

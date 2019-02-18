@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,42 @@
 
 package com.github.bhlangonijr.chesslib;
 
+/**
+ * The enum Castle right.
+ */
 public enum CastleRight {
+    /**
+     * King side castle right.
+     */
     KING_SIDE,
+    /**
+     * Queen side castle right.
+     */
     QUEEN_SIDE,
+    /**
+     * King and queen side castle right.
+     */
     KING_AND_QUEEN_SIDE,
+    /**
+     * None castle right.
+     */
     NONE;
 
+    /**
+     * From value castle right.
+     *
+     * @param v the v
+     * @return the castle right
+     */
     public static CastleRight fromValue(String v) {
         return valueOf(v);
     }
 
+    /**
+     * Value string.
+     *
+     * @return the string
+     */
     public String value() {
         return name();
     }

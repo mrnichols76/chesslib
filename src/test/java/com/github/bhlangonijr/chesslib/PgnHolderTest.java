@@ -1,14 +1,26 @@
 package com.github.bhlangonijr.chesslib;
 
 import com.github.bhlangonijr.chesslib.game.Game;
+import com.github.bhlangonijr.chesslib.move.Move;
+import com.github.bhlangonijr.chesslib.move.MoveConversionException;
+import com.github.bhlangonijr.chesslib.move.MoveList;
 import com.github.bhlangonijr.chesslib.pgn.PgnHolder;
+import com.github.bhlangonijr.chesslib.pgn.PgnLoadListener;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 
+/**
+ * The type Pgn holder test.
+ */
 public class PgnHolderTest {
 
+    /**
+     * Test pgn load 1.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testPGNLoad1() throws Exception {
 
@@ -37,6 +49,11 @@ public class PgnHolderTest {
 
     }
 
+    /**
+     * Test pgn load 2.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testPGNLoad2() throws Exception {
 
@@ -66,6 +83,11 @@ public class PgnHolderTest {
 
     }
 
+    /**
+     * Test pgn load 3.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testPGNLoad3() throws Exception {
 
@@ -96,7 +118,15 @@ public class PgnHolderTest {
 
     }
 
+<<<<<<< HEAD
     @Ignore
+=======
+    /**
+     * Test pgn load 4.
+     *
+     * @throws Exception the exception
+     */
+>>>>>>> 6e334177c571a5a31eb2be551e4e07e32bd99736
     @Test
     public void testPGNLoad4() throws Exception {
 
@@ -119,13 +149,106 @@ public class PgnHolderTest {
         assertEquals("B90", game.getEco());
         assertEquals(97, game.getHalfMoves().size());
         assertEquals("e2e4 c7c5 g1f3 d7d6 d2d4 c5d4 f3d4 g8f6 b1c3 a7a6 f2f3 d8b6 d4b3 e7e6 g2g4 b8c6 d1e2 b6c7 c1e3 " +
-                "b7b5 e1c1 f6d7 c1b1 d7b6 e2f2 a8b8 h2h4 f8e7 f1b5 a6b5 c3b5 c7b7 e3b6 e8g8 b6c7 b7b5 h4h5 c8a6 h5h6 " +
-                "g7g6 c7d6 b5e2 f2g3 b8d8 b3c1 e7d6 d1d6 e2b5 h1d1 b5g5 d6d8 f8d8 d1d8 g5d8 f3f4 c6d4 f4f5 e6f5 e4f5 " +
-                "a6b7 g3f4 d4f3 c1d3 b7e4 d3f2 e4d5 b2b3 g8h8 f2d3 g6g5 f4e3 d5e4 b1b2 e4d5 e3c5 f7f6 a2a4 f3h2 a4a5 " +
-                "h2g4 c5d4 g4h6 d3b4 g5g4 b4d5 g4g3 a5a6 g3g2 a6a7 h6g8 d4c5 g2g1q c5g1 d8d5 g1b6 d5e5 b2a3",
+                        "b7b5 e1c1 f6d7 c1b1 d7b6 e2f2 a8b8 h2h4 f8e7 f1b5 a6b5 c3b5 c7b7 e3b6 e8g8 b6c7 b7b5 h4h5 c8a6 h5h6 " +
+                        "g7g6 c7d6 b5e2 f2g3 b8d8 b3c1 e7d6 d1d6 e2b5 h1d1 b5g5 d6d8 f8d8 d1d8 g5d8 f3f4 c6d4 f4f5 e6f5 e4f5 " +
+                        "a6b7 g3f4 d4f3 c1d3 b7e4 d3f2 e4d5 b2b3 g8h8 f2d3 g6g5 f4e3 d5e4 b1b2 e4d5 e3c5 f7f6 a2a4 f3h2 a4a5 " +
+                        "h2g4 c5d4 g4h6 d3b4 g5g4 b4d5 g4g3 a5a6 g3g2 a6a7 h6g8 d4c5 g2g1q c5g1 d8d5 g1b6 d5e5 b2a3",
                 game.getHalfMoves().toString());
 
     }
 
 
+    @Test
+    public void testPromotionWithMissingEqualSign() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/promoting.pgn");
+        pgn.loadPgn();
+        Game game = pgn.getGame().get(0);
+        game.loadMoveText();
+        MoveList moves = game.getHalfMoves();
+        Board board = new Board();
+        for (Move move: moves) {
+            board.doMove(move);
+        }
+        assertEquals(moves.toString(), "g1f3 d7d5 e2e3 g8f6 c2c4 e7e6 d2d4 c7c5 a2a3 b8c6 d4c5 f8c5 b2b4 c5e7 " +
+                "c1b2 e8g8 b1d2 a7a5 b4b5 c6b8 f1e2 b8d7 e1g1 b7b6 a1c1 c8b7 c4d5 f6d5 d2c4 d7c5 f3d4 e7f6 e2f3 e6e5 " +
+                "d4c6 b7c6 b5c6 e5e4 b2f6 d5f6 d1d8 a8d8 c4b6 c5d3 c1c3 e4f3 c6c7 f6e4 c7d8q f8d8 c3c8 d8c8 b6c8 g7g5 " +
+                "g2f3 e4d2 f1d1 d2f3 g1g2 f3e5 c8e7 g8g7 e7c6 d3f2 g2f2 e5c6 d1d5 f7f6 d5c5 c6e5 f2e2 h7h5 c5a5 g5g4 " +
+                "a5e5 f6e5 a3a4");
+    }
+
+    @Test
+    public void testCupPgn() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/cup.pgn");
+        pgn.loadPgn();
+        for (Game game: pgn.getGame()) {
+            game.loadMoveText();
+            MoveList moves = game.getHalfMoves();
+            Board board = new Board();
+            for (Move move : moves) {
+                board.doMove(move);
+            }
+        }
+    }
+
+    @Test
+    public void testOO() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/oo.pgn");
+        pgn.loadPgn();
+        for (Game game: pgn.getGame()) {
+            game.loadMoveText();
+            MoveList moves = game.getHalfMoves();
+            Board board = new Board();
+            for (Move move : moves) {
+                board.doMove(move);
+            }
+        }
+    }
+
+    @Test
+    public void testEP() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/ep.pgn");
+        pgn.loadPgn();
+        for (Game game: pgn.getGame()) {
+            game.loadMoveText();
+            MoveList moves = game.getHalfMoves();
+            Board board = new Board();
+            for (Move move : moves) {
+                board.doMove(move);
+            }
+        }
+    }
+
+    @Test
+    public void testZ0() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/z0.pgn");
+        pgn.loadPgn();
+        for (Game game: pgn.getGame()) {
+            game.loadMoveText();
+            MoveList moves = game.getHalfMoves();
+            Board board = new Board();
+            for (Move move : moves) {
+                board.doMove(move);
+            }
+        }
+    }
+
+    @Test(expected = MoveConversionException.class)
+    public void testErr() throws Exception {
+
+        PgnHolder pgn = new PgnHolder("src/test/resources/err.pgn");
+        pgn.loadPgn();
+        for (Game game: pgn.getGame()) {
+            game.loadMoveText();
+            MoveList moves = game.getHalfMoves();
+            Board board = new Board();
+            for (Move move : moves) {
+                board.doMove(move);
+            }
+        }
+    }
 }

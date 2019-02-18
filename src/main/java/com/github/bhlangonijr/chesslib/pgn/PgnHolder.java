@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * The type Pgn holder.
+ */
 public class PgnHolder {
 
     private final static Pattern propertyPattern = Pattern.compile("\\[.* \".*\"\\]");
@@ -37,12 +40,17 @@ public class PgnHolder {
     private final Map<String, Event> event = new HashMap<String, Event>();
     private final Map<String, Player> player = new HashMap<String, Player>();
     private final List<Game> game = new ArrayList<Game>();
-    private final List<PGNLoadListener> listener = new ArrayList<PGNLoadListener>();
+    private final List<PgnLoadListener> listener = new ArrayList<PgnLoadListener>();
     private String fileName;
     private Integer size;
     private boolean lazyLoad;
 
-    public PgnHolder(String filename) throws FileNotFoundException {
+    /**
+     * Instantiates a new Pgn holder.
+     *
+     * @param filename the filename
+     */
+    public PgnHolder(String filename) {
         setFileName(filename);
         setLazyLoad(false);
     }
@@ -51,14 +59,14 @@ public class PgnHolder {
         return propertyPattern.matcher(line).matches();
     }
 
-    private static PGNProperty parsePGNProperty(String line) {
+    private static PgnProperty parsePgnProperty(String line) {
         try {
 
             String l = line.replace("[", "");
             l = l.replace("]", "");
             l = l.replace("\"", "");
 
-            return new PGNProperty(StringUtil.beforeSequence(l, " "),
+            return new PgnProperty(StringUtil.beforeSequence(l, " "),
                     StringUtil.afterSequence(l, " "));
         } catch (Exception e) {
             // do nothing
@@ -67,6 +75,9 @@ public class PgnHolder {
         return null;
     }
 
+    /**
+     * Clean up.
+     */
     public void cleanUp() {
         event.clear();
         player.clear();
@@ -76,6 +87,8 @@ public class PgnHolder {
     }
 
     /**
+     * Gets file name.
+     *
      * @return the fileName
      */
     public String getFileName() {
@@ -83,6 +96,8 @@ public class PgnHolder {
     }
 
     /**
+     * Sets file name.
+     *
      * @param fileName the fileName to set
      */
     public void setFileName(String fileName) {
@@ -90,6 +105,8 @@ public class PgnHolder {
     }
 
     /**
+     * Gets event.
+     *
      * @return the event
      */
     public Map<String, Event> getEvent() {
@@ -97,6 +114,8 @@ public class PgnHolder {
     }
 
     /**
+     * Gets player.
+     *
      * @return the player
      */
     public Map<String, Player> getPlayer() {
@@ -104,6 +123,8 @@ public class PgnHolder {
     }
 
     /**
+     * Gets game.
+     *
      * @return the game
      */
     public List<Game> getGame() {
@@ -113,7 +134,7 @@ public class PgnHolder {
     /**
      * Load the PGN file
      *
-     * @throws Exception
+     * @throws Exception the exception
      */
     public void loadPgn() throws Exception {
         LargeFile file = new LargeFile(getFileName());
@@ -133,7 +154,7 @@ public class PgnHolder {
                         line = line.substring(1);
                     }
                     if (isProperty(line)) {
-                        PGNProperty p = parsePGNProperty(line);
+                        PgnProperty p = parsePgnProperty(line);
                         if (p != null) {
                             String tag = p.name.toLowerCase().trim();
                             //begin
@@ -143,7 +164,7 @@ public class PgnHolder {
                                     setMoveText(game, moveText);
                                 }
                                 size++;
-                                for (PGNLoadListener l : getListener()) {
+                                for (PgnLoadListener l : getListener()) {
                                     l.notifyProgress(size);
                                 }
                                 game = null;
@@ -373,6 +394,8 @@ public class PgnHolder {
     }
 
     /**
+     * Gets size.
+     *
      * @return the size
      */
     public Integer getSize() {
@@ -380,6 +403,8 @@ public class PgnHolder {
     }
 
     /**
+     * Is lazy load boolean.
+     *
      * @return the lazyLoad
      */
     public boolean isLazyLoad() {
@@ -387,6 +412,8 @@ public class PgnHolder {
     }
 
     /**
+     * Sets lazy load.
+     *
      * @param lazyLoad the lazyLoad to set
      */
     public void setLazyLoad(boolean lazyLoad) {
@@ -394,9 +421,11 @@ public class PgnHolder {
     }
 
     /**
+     * Gets listener.
+     *
      * @return the listener
      */
-    public List<PGNLoadListener> getListener() {
+    public List<PgnLoadListener> getListener() {
         return listener;
     }
 
@@ -420,15 +449,33 @@ public class PgnHolder {
         return sb.toString();
     }
 
-    static class PGNProperty {
+    /**
+     * The type Pgn property.
+     */
+    static class PgnProperty {
+        /**
+         * The Name.
+         */
         public String name;
 
-        ;
+        /**
+         * The Value.
+         */
         public String value;
 
-        public PGNProperty() {
+        /**
+         * Instantiates a new Pgn property.
+         */
+        public PgnProperty() {
         }
-        public PGNProperty(String name, String value) {
+
+        /**
+         * Instantiates a new Pgn property.
+         *
+         * @param name  the name
+         * @param value the value
+         */
+        public PgnProperty(String name, String value) {
             this.name = name;
             this.value = value;
         }
