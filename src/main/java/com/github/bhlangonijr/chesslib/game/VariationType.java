@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,32 @@
 
 package com.github.bhlangonijr.chesslib.game;
 
+/**
+ * The enum Variation type.
+ */
 public enum VariationType {
+    /**
+     * Normal variation type.
+     */
     NORMAL,
+    /**
+     * Chess 960 variation type.
+     */
     CHESS960,
+    /**
+     * Nocastle variation type.
+     */
     NOCASTLE,
+    /**
+     * Wildcastle variation type.
+     */
     WILDCASTLE,
+    /**
+     * Bughouse variation type.
+     */
     BUGHOUSE,
+    /**
+     * Crazyhouse variation type.
+     */
     CRAZYHOUSE
 }

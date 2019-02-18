@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,44 @@
 
 package com.github.bhlangonijr.chesslib.move;
 
+/**
+ * The type Move generator exception.
+ */
 public class MoveGeneratorException extends Exception {
 
     private static final long serialVersionUID = 6523240383760826752L;
 
+    /**
+     * Instantiates a new Move generator exception.
+     */
     public MoveGeneratorException() {
         super();
     }
 
+    /**
+     * Instantiates a new Move generator exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
     public MoveGeneratorException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Instantiates a new Move generator exception.
+     *
+     * @param message the message
+     */
     public MoveGeneratorException(String message) {
         super(message);
     }
 
+    /**
+     * Instantiates a new Move generator exception.
+     *
+     * @param cause the cause
+     */
     public MoveGeneratorException(Throwable cause) {
         super(cause);
     }

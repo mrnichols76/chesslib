@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,21 @@ package com.github.bhlangonijr.chesslib.game;
  */
 public enum GameMode {
 
+    /**
+     * Human vs machine game mode.
+     */
     HUMAN_VS_MACHINE,
+    /**
+     * Machine vs human game mode.
+     */
     MACHINE_VS_HUMAN,
+    /**
+     * Human vs human game mode.
+     */
     HUMAN_VS_HUMAN,
+    /**
+     * Machine vs machine game mode.
+     */
     MACHINE_VS_MACHINE
 
 }

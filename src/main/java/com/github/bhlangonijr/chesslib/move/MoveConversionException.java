@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,44 @@
 
 package com.github.bhlangonijr.chesslib.move;
 
+/**
+ * The type Move conversion exception.
+ */
 public class MoveConversionException extends Exception {
 
     private static final long serialVersionUID = 5523540383760826752L;
 
+    /**
+     * Instantiates a new Move conversion exception.
+     */
     public MoveConversionException() {
         super();
     }
 
+    /**
+     * Instantiates a new Move conversion exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
     public MoveConversionException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Instantiates a new Move conversion exception.
+     *
+     * @param message the message
+     */
     public MoveConversionException(String message) {
         super(message);
     }
 
+    /**
+     * Instantiates a new Move conversion exception.
+     *
+     * @param cause the cause
+     */
     public MoveConversionException(Throwable cause) {
         super(cause);
     }

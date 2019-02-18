@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ben-Hur Carlos Vieira Langoni Junior
+ * Copyright 2017 Ben-Hur Carlos Vieira Langoni Junior
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,10 +39,19 @@ public class MoveBackup implements BoardEvent {
     private boolean castleMove;
     private boolean enPassantMove;
 
+    /**
+     * Instantiates a new Move backup.
+     */
     public MoveBackup() {
         castleRight = new EnumMap<Side, CastleRight>(Side.class);
     }
 
+    /**
+     * Instantiates a new Move backup.
+     *
+     * @param board the board
+     * @param move  the move
+     */
     public MoveBackup(Board board, Move move) {
         this();
         makeBackup(board, move);
@@ -51,8 +60,8 @@ public class MoveBackup implements BoardEvent {
     /**
      * make the board backup
      *
-     * @param board
-     * @param move
+     * @param board the board
+     * @param move  the move
      */
     public void makeBackup(Board board, Move move) {
 
@@ -61,12 +70,12 @@ public class MoveBackup implements BoardEvent {
         setEnPassant(board.getEnPassant());
         setMoveCounter(board.getMoveCounter());
         setHalfMoveCounter(board.getHalfMoveCounter());
-        setMove(new Move(move));
+        setMove(move);
         getCastleRight().put(Side.WHITE, board.getCastleRight(Side.WHITE));
         getCastleRight().put(Side.BLACK, board.getCastleRight(Side.BLACK));
         setCapturedPiece(board.getPiece(move.getTo()));
         setCapturedSquare(move.getTo());
-        Piece moving = board.getPiece(move.getFrom());
+        Piece moving = move.getPromotion() == Piece.NONE ? board.getPiece(move.getFrom()) : move.getPromotion();
         setMovingPiece(moving);
         if (board.getContext().isCastleMove(move)) {
             CastleRight c = board.getContext().isKingSideCastle(move) ? CastleRight.KING_SIDE :
@@ -78,23 +87,12 @@ public class MoveBackup implements BoardEvent {
             setRookCastleMove(null);
             setCastleMove(false);
         }
-        setEnPassantMove(false);
-        if (!Square.NONE.equals(getEnPassantTarget())) {
-            if (PieceType.PAWN.equals(moving.getPieceType())) {
-                if (!move.getTo().getFile().equals(move.getFrom().getFile())) {
-                    setCapturedPiece(board.getPiece(getEnPassantTarget()));
-                    setCapturedSquare(getEnPassantTarget());
-                    setEnPassantMove(true);
-                }
-            }
-        }
-
     }
 
     /**
      * restore the board
      *
-     * @param board
+     * @param board the board
      */
     public void restore(Board board) {
         board.setSideToMove(getSideToMove());
@@ -102,27 +100,20 @@ public class MoveBackup implements BoardEvent {
         board.setEnPassant(getEnPassant());
         board.setMoveCounter(getMoveCounter());
         board.setHalfMoveCounter(getHalfMoveCounter());
-        Piece movingPiece = board.getPiece(getMove().getTo());
+        Piece movingPiece = getMovingPiece();
         board.getCastleRight().put(Side.WHITE, getCastleRight().get(Side.WHITE));
         board.getCastleRight().put(Side.BLACK, getCastleRight().get(Side.BLACK));
 
         final boolean isCastle = board.getContext().isCastleMove(getMove());
 
-        if (PieceType.KING.equals(movingPiece.getPieceType())) {
-            if (isCastle) {
-                board.movePiece(getRookCastleMove().getTo(),
-                        getRookCastleMove().getFrom(), Piece.NONE);
-            }
+        if (PieceType.KING.equals(movingPiece.getPieceType()) && isCastle) {
+            board.undoMovePiece(getRookCastleMove());
         }
         board.unsetPiece(movingPiece, getMove().getTo());
         if (Piece.NONE.equals(getMove().getPromotion())) {
             board.setPiece(movingPiece, getMove().getFrom());
         } else {
-            if (Side.WHITE.equals(getSideToMove())) {
-                board.setPiece(Piece.WHITE_PAWN, getMove().getFrom());
-            } else {
-                board.setPiece(Piece.BLACK_PAWN, getMove().getFrom());
-            }
+            board.setPiece(Piece.make(getSideToMove(), PieceType.PAWN), getMove().getFrom());
         }
         if (!Piece.NONE.equals(getCapturedPiece())) {
             board.setPiece(getCapturedPiece(), getCapturedSquare());
@@ -130,6 +121,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets side to move.
+     *
      * @return the sideToMove
      */
     public Side getSideToMove() {
@@ -137,6 +130,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets side to move.
+     *
      * @param sideToMove the sideToMove to set
      */
     public void setSideToMove(Side sideToMove) {
@@ -144,6 +139,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets en passant target.
+     *
      * @return the enPassantTarget
      */
     public Square getEnPassantTarget() {
@@ -151,6 +148,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets en passant target.
+     *
      * @param enPassant the enPassantTarget to set
      */
     public void setEnPassantTarget(Square enPassant) {
@@ -158,6 +157,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets en passant.
+     *
      * @return the enPassant
      */
     public Square getEnPassant() {
@@ -165,6 +166,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets en passant.
+     *
      * @param enPassant the enPassant to set
      */
     public void setEnPassant(Square enPassant) {
@@ -172,6 +175,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets move counter.
+     *
      * @return the moveCounter
      */
     public Integer getMoveCounter() {
@@ -179,6 +184,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets move counter.
+     *
      * @param moveCounter the moveCounter to set
      */
     public void setMoveCounter(Integer moveCounter) {
@@ -186,6 +193,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets half move counter.
+     *
      * @return the halfMoveCounter
      */
     public Integer getHalfMoveCounter() {
@@ -193,6 +202,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets half move counter.
+     *
      * @param halfMoveCounter the halfMoveCounter to set
      */
     public void setHalfMoveCounter(Integer halfMoveCounter) {
@@ -200,6 +211,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets move.
+     *
      * @return the move
      */
     public Move getMove() {
@@ -207,6 +220,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets move.
+     *
      * @param move the move to set
      */
     public void setMove(Move move) {
@@ -214,6 +229,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets rook castle move.
+     *
      * @return the rookCastleMove
      */
     public Move getRookCastleMove() {
@@ -221,6 +238,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets rook castle move.
+     *
      * @param rookCastleMove the rookCastleMove to set
      */
     public void setRookCastleMove(Move rookCastleMove) {
@@ -228,6 +247,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets castle right.
+     *
      * @return the castleRight
      */
     public EnumMap<Side, CastleRight> getCastleRight() {
@@ -235,6 +256,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets captured piece.
+     *
      * @return the capturedPiece
      */
     public Piece getCapturedPiece() {
@@ -242,6 +265,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets captured piece.
+     *
      * @param capturedPiece the capturedPiece to set
      */
     public void setCapturedPiece(Piece capturedPiece) {
@@ -249,6 +274,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets captured square.
+     *
      * @return the capturedSquare
      */
     public Square getCapturedSquare() {
@@ -256,6 +283,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets captured square.
+     *
      * @param capturedSquare the capturedSquare to set
      */
     public void setCapturedSquare(Square capturedSquare) {
@@ -267,6 +296,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Gets moving piece.
+     *
      * @return the movingPiece
      */
     public Piece getMovingPiece() {
@@ -274,6 +305,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets moving piece.
+     *
      * @param movingPiece the movingPiece to set
      */
     public void setMovingPiece(Piece movingPiece) {
@@ -281,6 +314,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Is castle move boolean.
+     *
      * @return the castleMove
      */
     public boolean isCastleMove() {
@@ -288,6 +323,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets castle move.
+     *
      * @param castleMove the castleMove to set
      */
     public void setCastleMove(boolean castleMove) {
@@ -295,6 +332,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Is en passant move boolean.
+     *
      * @return the enPassantMove
      */
     public boolean isEnPassantMove() {
@@ -302,6 +341,8 @@ public class MoveBackup implements BoardEvent {
     }
 
     /**
+     * Sets en passant move.
+     *
      * @param enPassantMove the enPassantMove to set
      */
     public void setEnPassantMove(boolean enPassantMove) {
