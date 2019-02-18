@@ -5,6 +5,7 @@ import com.github.bhlangonijr.chesslib.pgn.PgnHolder;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
 
 public class PgnHolderTest {
 
@@ -95,6 +96,7 @@ public class PgnHolderTest {
 
     }
 
+    @Ignore
     @Test
     public void testPGNLoad4() throws Exception {
 
