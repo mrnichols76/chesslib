@@ -118,15 +118,11 @@ public class PgnHolderTest {
 
     }
 
-<<<<<<< HEAD
-    @Ignore
-=======
     /**
      * Test pgn load 4.
      *
      * @throws Exception the exception
      */
->>>>>>> 6e334177c571a5a31eb2be551e4e07e32bd99736
     @Test
     public void testPGNLoad4() throws Exception {
 
